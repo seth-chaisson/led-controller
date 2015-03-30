@@ -24,47 +24,72 @@ public class blueToothController implements com.mygdx.game.blueToothInterface {
     public boolean connect() {// led mac addr 00:13:12:06:63:71
         // spp magic number uuid?"00001101-0000-1000-8000-00805F9B34FB"
 
-
-        while(led == null)
-        {
-            ba = BluetoothAdapter.getDefaultAdapter();
-            if (ba == null)
-                Log.d("bt ", "get default adapter failed");
-
-            Set<BluetoothDevice> pairedDevices;
-            pairedDevices = ba.getBondedDevices();
-
-
-            for (BluetoothDevice b : pairedDevices) {
-                if (b.getAddress() == "00:13:12:06:63:71") ;
-                {
-                    led = b;
-
-                }
-            }
-        }
-
-
-        try {
-            while(output == null)
+        Thread t = new Thread()
+        {   @Override
+            public void run()
             {
-                socket = led.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
-                socket.connect();
-                output = socket.getOutputStream();
-            }
-        } catch (IOException e) {
 
-            Log.d("bt ", "rf comm socket creation failed");
-        }
-        sendData(0x61, 0,0,0);
-        try {
-            Thread.sleep(15);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        sendData(0x73, 72, 50, 0, 0); // set center led to red to confirm link
+
+                while(led == null)
+                {
+                    ba = BluetoothAdapter.getDefaultAdapter();
+                    if (ba == null)
+                        Log.d("bt ", "get default adapter failed");
+
+                    Set<BluetoothDevice> pairedDevices;
+                    pairedDevices = ba.getBondedDevices();
+
+
+                    for (BluetoothDevice b : pairedDevices) {
+                        if (b.getAddress() == "00:13:12:06:63:71") ;
+                        {
+                            led = b;
+
+                        }
+                    }
+                }
+
+
+                try {
+                    while(output == null)
+                    {
+                        socket = led.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+                        socket.connect();
+                        output = socket.getOutputStream();
+                    }
+                } catch (IOException e) {
+
+                    Log.d("bt ", "rf comm socket creation failed");
+                }
+                sendData(0x61, 0,0,0);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                sendData(0x73, 72, 50, 0, 0); // set center led to red to confirm link
+
+            }
+        };
+
+
+        t.start();
+        return true;
+
+    }
+
+    public boolean isConnected()
+    {
+        if (output ==null)
+            return false;
+        else if (led == null)
+            return false;
+        else if(ba == null)
+            return false;
 
         return true;
+
     }
 
 

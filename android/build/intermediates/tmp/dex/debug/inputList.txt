@@ -1,4 +1,4 @@
-C:\android game\led controller\android\build\intermediates\classes\debug
-C:\android game\led controller\android\build\intermediates\pre-dexed\debug\core-1.0-dae9dc2e8ad15b82fae37af61fadda8f98f346f0.jar
-C:\android game\led controller\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.5.3-39a422df8f9bb01f639b8423e051935494b4f2f0.jar
-C:\android game\led controller\android\build\intermediates\pre-dexed\debug\gdx-1.5.3-995ab92a61a4a3b2b623ca7c0ff0df0f0375c26c.jar
+C:\Users\seth\Documents\GitHub\led-controller\android\build\intermediates\classes\debug
+C:\Users\seth\Documents\GitHub\led-controller\android\build\intermediates\pre-dexed\debug\core-1.0-3a264679377ddbb55d671cf067414cb3ebda9e11.jar
+C:\Users\seth\Documents\GitHub\led-controller\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.5.3-39a422df8f9bb01f639b8423e051935494b4f2f0.jar
+C:\Users\seth\Documents\GitHub\led-controller\android\build\intermediates\pre-dexed\debug\gdx-1.5.3-995ab92a61a4a3b2b623ca7c0ff0df0f0375c26c.jar
