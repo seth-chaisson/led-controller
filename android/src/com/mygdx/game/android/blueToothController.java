@@ -159,6 +159,21 @@ public class blueToothController implements com.mygdx.game.blueToothInterface {
 
     }
 
+    public void sendData(int mode)
+    {
+        try {
+            // send a few zeros to synchronize
+            output.write(0);output.write(0);output.write(0);output.write(0);output.write(0);
+            output.flush();
+
+
+            output.write(mode);
+            output.flush();
+        } catch (IOException e) {
+            Log.d("bt ", "output write e mode failed");
+        }
+    }
+
     public void dispose()
     {
 

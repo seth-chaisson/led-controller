@@ -21,6 +21,11 @@ public class desktopBlueToothController implements com.mygdx.game.blueToothInter
         System.out.println("mode "+mode +", address "+address+", red "+red +", green "+ green+", blue "+ blue+" \n" );
     }
 
+    @Override
+    public void sendData(int mode) {
+        System.out.println("mode "+mode  );
+    }
+
     public void dispose()
     {
         System.out.println("disposed\n");

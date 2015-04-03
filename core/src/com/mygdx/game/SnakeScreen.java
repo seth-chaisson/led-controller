@@ -292,6 +292,7 @@ public class SnakeScreen implements Screen
 
     public void updateLeds()
     {
+        b.sendData(blueToothInterface.ENABLE); // pauses the led refresh
         b.sendData(blueToothInterface.ALL,10,10,10); // clear
 
 
@@ -308,6 +309,8 @@ public class SnakeScreen implements Screen
                     );
 
         Gdx.app.log("color", "snake:("+((foodColor.toIntBits()&0xff0000)>>16)+")("+((foodColor.toIntBits()&0x00ff00)>>8)+")("+((foodColor.toIntBits()&0x0000ff))+")"+foodColor.toIntBits() );
+
+        b.sendData(blueToothInterface.ENABLE); // resume led refresh
     }
     public void setDirection(int d)
     {
