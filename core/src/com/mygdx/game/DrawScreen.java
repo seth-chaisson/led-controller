@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -60,6 +61,7 @@ public class DrawScreen implements Screen, InputProcessor
     @Override
     public void show()
     {
+        b.sendData(blueToothInterface.ALL, 0,0,0); // clear screen
         Gdx.input.setInputProcessor(this);
     }
 
@@ -130,11 +132,19 @@ public class DrawScreen implements Screen, InputProcessor
 
     @Override
     public boolean keyDown(int keycode) {
+
+
+
+
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        if(keycode == Input.Keys.BACK)
+        {
+            game.setScreen(mainScreen);
+        }
         return false;
     }
 

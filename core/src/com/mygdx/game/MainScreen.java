@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -94,6 +95,7 @@ public class MainScreen implements Screen
         stage.addActor(scroll);
         stage.addActor(snake);
 
+        Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(stage);
 
 
@@ -104,6 +106,9 @@ public class MainScreen implements Screen
     {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(0, 0, 0, 1);
+
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK) )
+            Gdx.app.exit();
 
 
         batch.begin();
@@ -134,6 +139,6 @@ public class MainScreen implements Screen
 
     @Override
     public void dispose() {
-
+        Gdx.app.log("screen", "main screen disposed");
     }
 }

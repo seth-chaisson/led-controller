@@ -71,5 +71,6 @@ public class LoadingScreen implements Screen
     {
        // spriteBatch.dispose();
        // bitmapFont.dispose();
+        Gdx.app.log("screen", "loading screen disposed");
     }
 }

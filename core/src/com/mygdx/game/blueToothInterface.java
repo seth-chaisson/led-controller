@@ -5,6 +5,8 @@ package com.mygdx.game;
  */
 public interface blueToothInterface
 {
+    public final int SINGLE = 0x73,
+                     ALL    = 0x61;
     public boolean connect();
     public boolean isConnected();
     public void sendData(int mode, int red, int green, int blue);

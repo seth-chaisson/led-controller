@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -34,7 +35,7 @@ public class SnakeIntroScreen implements Screen,InputProcessor
 
     @Override
     public void show() {
-        snakeScreen = null;
+
         snakeScreen = new SnakeScreen(b,game,mainScreen,this);
 
         spriteBatch = new SpriteBatch();
@@ -48,6 +49,7 @@ public class SnakeIntroScreen implements Screen,InputProcessor
     @Override
     public void render(float delta)
     {
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(0, 0, 0, 1);
 
@@ -82,6 +84,7 @@ public class SnakeIntroScreen implements Screen,InputProcessor
 
     @Override
     public void dispose() {
+        Gdx.app.log("screen", "snake intro screen disposed");
 
     }
 
@@ -92,6 +95,10 @@ public class SnakeIntroScreen implements Screen,InputProcessor
 
     @Override
     public boolean keyUp(int keycode) {
+        if(keycode == Input.Keys.BACK)
+        {
+            game.setScreen(mainScreen);
+        }
         return false;
     }
 

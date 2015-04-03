@@ -7,11 +7,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import java.util.LinkedList;
 
 /**
  * Created by seth on 4/2/2015.
@@ -36,7 +40,12 @@ public class SnakeScreen implements Screen
                     LEFT  = 2,
                     RIGHT = 3,
                     STOP  = 4;
-    int     direction = STOP;
+    int     direction = RIGHT;
+    float           time    = 0,
+                    gameTick= 1.0f;
+    Color            foodColor = Color.RED,
+                    snakeColor = Color.ORANGE;
+    LinkedList <Vector2> board;
 
 
 
@@ -52,6 +61,10 @@ public class SnakeScreen implements Screen
     @Override
     public void show()
     {
+        board = new LinkedList<Vector2>();
+        board.add(new Vector2(3, 3)); // first element is the food
+        board.addLast(new Vector2(0, 0));      // second element is the head
+
         stage = new Stage();
         spriteBatch = new SpriteBatch();
         uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -60,11 +73,18 @@ public class SnakeScreen implements Screen
 
         restart = new TextButton("New Game", uiSkin, "default");
         mainMenu = new TextButton("Quit", uiSkin, "default");
+
         TextButton up = new TextButton("UP",uiSkin,  "default");
+        TextButton down = new TextButton("DOWN",uiSkin,  "default");
+        TextButton left = new TextButton("LEFT",uiSkin,  "default");
+        TextButton right = new TextButton("RIGHT",uiSkin,  "default");
+
+
+
 
         mainMenu.setHeight(50);
         mainMenu.setWidth(400);
-        mainMenu.setPosition(75, 550);
+        mainMenu.setPosition(75, 250);
         mainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y)
@@ -74,27 +94,67 @@ public class SnakeScreen implements Screen
         });
         restart.setHeight(50);
         restart.setWidth(400);
-        restart.setPosition(75, 480);
+        restart.setPosition(75, 180);
         restart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y)
             {
+
                 game.setScreen(snakeIntroScreen);
             }
         });
 
         up.setHeight(50);
         up.setWidth(150);
-        up.setPosition(75, 480);
+        up.setPosition(195, 550);
         up.addListener(new ClickListener() {
-                        @Override
-                        public void clicked(InputEvent e, float x, float y)
-                        {
-                            setDirection(UP);
-                        }
+            @Override
+            public void clicked(InputEvent e, float x, float y)
+            {
+                setDirection(UP);
+            }
+        });
+
+        down.setHeight(50);
+        down.setWidth(150);
+        down.setPosition(195, 410);
+        down.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent e, float x, float y)
+            {
+                setDirection(DOWN);
+            }
+        });
+
+        left.setHeight(50);
+        left.setWidth(150);
+        left.setPosition(70, 480);
+        left.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent e, float x, float y)
+            {
+                setDirection(LEFT);
+            }
+        });
+
+        right.setHeight(50);
+        right.setWidth(150);
+        right.setPosition(320, 480);
+        right.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent e, float x, float y)
+            {
+                setDirection(RIGHT);
+            }
         });
 
         stage.addActor(up);
+        stage.addActor(down);
+        stage.addActor(left);
+        stage.addActor(right);
+        stage.addActor(restart);
+        stage.addActor(mainMenu);
+
 
 
         Gdx.input.setInputProcessor(stage);
@@ -107,23 +167,148 @@ public class SnakeScreen implements Screen
     @Override
     public void render(float delta)
     {
+
+        time += delta;
+        if(gameOver)
+        {
+            //show game over
+            //stage.addActor(textlabel with score);
+            snakeColor = Color.RED;
+        }
+        else if(time>gameTick && !gameOver)
+        {
+            updateGame();
+            updateLeds();
+            time =0;
+        }
+
+
+
+
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(0, 0, 0, 1);
 
 
-        if(gameOver)
-        {
-            stage.clear();
-            stage.addActor(restart);
-            stage.addActor(mainMenu);
-            //stage.addActor(textlabel with score);
-        }
+
 
         spriteBatch.begin();
         stage.draw();
         spriteBatch.end();
     }
 
+    public void updateGame()
+    {
+        Vector2 nextPosition = null;
+        // game logic goes here
+
+
+        if(direction == UP)
+            nextPosition = new Vector2(board.get(1).x , board.get(1).y-1);
+        else if(direction == DOWN)
+            nextPosition = new Vector2(board.get(1).x , board.get(1).y+1);
+        else if(direction == LEFT)
+            nextPosition = new Vector2(board.get(1).x -1, board.get(1).y);
+        else if(direction == RIGHT)
+            nextPosition = new Vector2(board.get(1).x +1, board.get(1).y);
+
+        Gdx.app.log("snake", "food:" + board.get(0).toString());
+        Gdx.app.log("snake", "head:" + board.get(1).toString());
+        Gdx.app.log("snake", "next:" + nextPosition);
+
+
+
+
+        // if you hit the wall game over
+        if(nextPosition.x > 6 || nextPosition.x < 0)
+        {
+            gameOver = true;
+            Gdx.app.log("snake", "off wall side");
+            return;
+
+        }
+        if(nextPosition.y > 6 || nextPosition.y < 0)
+        {
+            gameOver = true;
+            Gdx.app.log("snake", "off wall vertical");
+            return;
+
+        }
+
+        // if you hit the food
+        if(board.get(0).x == nextPosition.x && board.get(0).y == nextPosition.y)
+        {
+            gameTick -= .05;
+            board.add(1,nextPosition); // move the head
+            // tail stays to grow snake
+
+            //find empty random place to put next food
+            nextPosition = null;
+            while(nextPosition == null)
+            {
+                // pick a random position
+                nextPosition = new Vector2(  (Math.round(Math.random() * 6)),(Math.round(Math.random()*6)) );
+                if(board.contains(nextPosition))//the space is not empyt
+                {
+                    nextPosition = null;
+                    continue;
+                }
+                else
+                {
+                    board.remove(0);// remove old food position
+                    board.addFirst(nextPosition); //add new food
+                }
+
+            }
+            Gdx.app.log("snake", "food");
+            return;
+
+        }
+        //if you hit your tail game over
+        else if(board.contains(nextPosition) )
+        {
+            gameOver = true;
+            Gdx.app.log("snake", "hit tail");
+            return;
+
+        }
+        // if you hit an empty space
+        else
+        {
+            board.add(1, nextPosition); // move the head
+            board.removeLast();         //delete the tail
+            Gdx.app.log("snake", "empty space");
+            return;
+        }
+
+
+
+
+
+
+
+
+    }
+
+    public void updateLeds()
+    {
+        b.sendData(blueToothInterface.ALL,10,10,10); // clear
+
+
+        // abgr to rgb
+        b.sendData(blueToothInterface.SINGLE,
+                (int)((board.get(0).x * 3) + (board.get(0).y * 21)),
+                ((foodColor.toIntBits()&0x0000ff)),((foodColor.toIntBits()&0x00ff00)>>8),((foodColor.toIntBits()&0xff0000)>>16)
+                    ); // send food position
+
+        for(int x =1; x < board.size(); x++ )
+            b.sendData(blueToothInterface.SINGLE,
+                    (int)((board.get(x).x * 3) + (board.get(x).y * 21)),
+                    ((snakeColor.toIntBits()&0x0000ff)),((snakeColor.toIntBits()&0x00ff00)>>8),((snakeColor.toIntBits()&0xff0000)>>16)
+                    );
+
+        Gdx.app.log("color", "snake:("+((foodColor.toIntBits()&0xff0000)>>16)+")("+((foodColor.toIntBits()&0x00ff00)>>8)+")("+((foodColor.toIntBits()&0x0000ff))+")"+foodColor.toIntBits() );
+    }
     public void setDirection(int d)
     {
         //if invalid direction
@@ -168,6 +353,6 @@ public class SnakeScreen implements Screen
 
     @Override
     public void dispose() {
-
+        Gdx.app.log("screen", "snake screen disposed");
     }
 }
