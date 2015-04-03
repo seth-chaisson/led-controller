@@ -61,12 +61,7 @@ public class blueToothController implements com.mygdx.game.blueToothInterface {
 
                     Log.d("bt ", "rf comm socket creation failed");
                 }
-                sendData(0x61, 0,0,0);
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
 
                 sendData(0x73, 72, 50, 0, 0); // set center led to red to confirm link
 

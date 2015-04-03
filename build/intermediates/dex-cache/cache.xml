@@ -19,7 +19,7 @@
         jar="C:\Users\seth\Documents\GitHub\led-controller\core\build\libs\core-1.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="8611d43524ec73c42a729a464c4576573c98559f">
+        sha1="32e509dc337d40988589c33d0a18a6a1263d6500">
         <dex dex="C:\Users\seth\Documents\GitHub\led-controller\android\build\intermediates\pre-dexed\debug\core-1.0-3a264679377ddbb55d671cf067414cb3ebda9e11.jar" />
     </item>
     <item

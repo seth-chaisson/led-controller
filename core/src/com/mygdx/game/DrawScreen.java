@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -18,6 +19,8 @@ import com.badlogic.gdx.utils.Array;
 public class DrawScreen implements Screen, InputProcessor
 {
     blueToothInterface b;
+    Game game;
+    MainScreen mainScreen;
     SpriteBatch batch;
     Texture img;
     Pixmap colorWheelPixmap;
@@ -27,9 +30,12 @@ public class DrawScreen implements Screen, InputProcessor
     Rectangle colorPreviewBox;
     com.badlogic.gdx.graphics.Color colorPreviewColor;
 
-    DrawScreen(blueToothInterface b)
+    DrawScreen(blueToothInterface b, Game game, MainScreen mainScreen)
     {
         this.b = b;
+        this.game = game;
+        this.mainScreen = mainScreen;
+
         batch = new SpriteBatch();
         img = new Texture("colorWheel.jpg");
         img.getTextureData().prepare();
@@ -54,7 +60,7 @@ public class DrawScreen implements Screen, InputProcessor
     @Override
     public void show()
     {
-
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -168,26 +174,8 @@ public class DrawScreen implements Screen, InputProcessor
                     ((screenX*200)/540)     ,
                     (200-((screenY*200)/540))    ));
 
-            System.out.println("color " + Color.rgb888(colorPreviewColor));
-
-            int color = Color.rgb888(colorPreviewColor);
-
-            //b.sendData(0x61, ((color&0xff0000)>>16), ((color&0x00ff00)>>8),((color&0xff)) );
-            System.out.println("touch distance: "+Math.sqrt(    ( (Math.pow((screenX-270), 2)) + (Math.pow((screenY-270), 2))   )   ));
-
 
         }
-
-
-        System.out.println("screenx:"+ screenX +"");
-        System.out.println("screeny:"+ screenY +"");
-
-
-
-        System.out.println("color:" + colorPreviewColor.toString() + "\n");
-
-
-
 
         return false;
     }
@@ -225,25 +213,7 @@ public class DrawScreen implements Screen, InputProcessor
                     ((screenX*200)/540)     ,
                     (200-((screenY*200)/540))    ));
 
-            System.out.println("color " + Color.rgb888(colorPreviewColor));
-
-            int color = Color.rgb888(colorPreviewColor);
-
-            //b.sendData(0x61, ((color&0xff0000)>>16), ((color&0x00ff00)>>8),((color&0xff)) );
-            System.out.println("touch distance: "+Math.sqrt(    ( (Math.pow((screenX-270), 2)) + (Math.pow((screenY-270), 2))   )   ));
-
-
         }
-
-
-        System.out.println("screenx:"+ screenX +"");
-        System.out.println("screeny:"+ screenY +"");
-
-
-
-        System.out.println("color:" + colorPreviewColor.toString() + "\n");
-
-
 
         return false;
     }

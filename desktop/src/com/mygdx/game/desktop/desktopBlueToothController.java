@@ -9,7 +9,7 @@ public class desktopBlueToothController implements com.mygdx.game.blueToothInter
     }
 
     @Override
-    public boolean isConnected() { return false;  }
+    public boolean isConnected() { return true;  }
 
 
     public void sendData(int mode, int red, int green, int blue)
