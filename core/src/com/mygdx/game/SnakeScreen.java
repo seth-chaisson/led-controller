@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -13,7 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import java.util.LinkedList;
 
@@ -33,6 +36,12 @@ public class SnakeScreen implements Screen
     BitmapFont bitmapFont;
     TextButton restart ;
     TextButton mainMenu ;
+    Touchpad touchPad;
+    Touchpad.TouchpadStyle touchpadStyle;
+    Skin    touchPadSkin;
+    Drawable touchPadBackground;
+    Drawable touchPadKnob;
+    float touchPadThreshold =0.75f;
 
     Boolean gameOver = false;
     final   int     UP    = 0,
@@ -71,13 +80,10 @@ public class SnakeScreen implements Screen
         bitmapFont = new BitmapFont();
         bitmapFont.setColor(Color.GREEN);
 
+
         restart = new TextButton("New Game", uiSkin, "default");
         mainMenu = new TextButton("Quit", uiSkin, "default");
 
-        TextButton up = new TextButton("UP",uiSkin,  "default");
-        TextButton down = new TextButton("DOWN",uiSkin,  "default");
-        TextButton left = new TextButton("LEFT",uiSkin,  "default");
-        TextButton right = new TextButton("RIGHT",uiSkin,  "default");
 
 
 
@@ -104,57 +110,25 @@ public class SnakeScreen implements Screen
             }
         });
 
-        up.setHeight(50);
-        up.setWidth(150);
-        up.setPosition(195, 550);
-        up.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent e, float x, float y)
-            {
-                setDirection(UP);
-            }
-        });
+        touchPadSkin = new Skin();
+        touchPadSkin.add("touchbackground", new Texture("touchBackground.png"));
+        touchPadSkin.add("touchknob", new Texture("touchKnob.png"));
+        touchpadStyle = new Touchpad.TouchpadStyle();
 
-        down.setHeight(50);
-        down.setWidth(150);
-        down.setPosition(195, 410);
-        down.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent e, float x, float y)
-            {
-                setDirection(DOWN);
-            }
-        });
+        touchPadBackground = touchPadSkin.getTiledDrawable("touchbackground");
+        touchPadKnob = touchPadSkin.getTiledDrawable("touchknob");
 
-        left.setHeight(50);
-        left.setWidth(150);
-        left.setPosition(70, 480);
-        left.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent e, float x, float y)
-            {
-                setDirection(LEFT);
-            }
-        });
+        touchpadStyle.background = touchPadBackground;
+        touchpadStyle.knob = touchPadKnob;
 
-        right.setHeight(50);
-        right.setWidth(150);
-        right.setPosition(320, 480);
-        right.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent e, float x, float y)
-            {
-                setDirection(RIGHT);
-            }
-        });
+        touchPad = new Touchpad(10, touchpadStyle);
+        touchPad.setBounds(15,15,200,200);
+        touchPad.setPosition(170,380);
 
-        stage.addActor(up);
-        stage.addActor(down);
-        stage.addActor(left);
-        stage.addActor(right);
+
         stage.addActor(restart);
         stage.addActor(mainMenu);
-
+        stage.addActor(touchPad);
 
 
         Gdx.input.setInputProcessor(stage);
@@ -199,6 +173,19 @@ public class SnakeScreen implements Screen
 
     public void updateGame()
     {
+
+        //read input
+        if(touchPad.getKnobPercentX() > touchPadThreshold)
+            setDirection(RIGHT);
+        else if(touchPad.getKnobPercentX() < (-touchPadThreshold))
+            setDirection(LEFT);
+        if(touchPad.getKnobPercentY() > touchPadThreshold)
+            setDirection(UP);
+        else if(touchPad.getKnobPercentY() < (-touchPadThreshold))
+            setDirection(DOWN);
+        Gdx.app.log("touchpad", "touchpadx:" + touchPad.getKnobPercentX());
+        Gdx.app.log("touchpad", "touchpady:" + touchPad.getKnobPercentY());
+
         Vector2 nextPosition = null;
         // game logic goes here
 

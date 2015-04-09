@@ -2,32 +2,11 @@
 <items version="2" >
 
     <item
-        jar="C:\android game\led controller\core\build\libs\core-1.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="723271079a2845e09f776e0371edfb39967be1a2">
-        <dex dex="C:\android game\led controller\android\build\intermediates\pre-dexed\debug\core-1.0-dae9dc2e8ad15b82fae37af61fadda8f98f346f0.jar" />
-    </item>
-    <item
-        jar="C:\Users\seth\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-backend-android\1.5.3\903703e4eca4d27092cf61412b7a583aa26d14ad\gdx-backend-android-1.5.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="903703e4eca4d27092cf61412b7a583aa26d14ad">
-        <dex dex="C:\android game\led controller\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.5.3-39a422df8f9bb01f639b8423e051935494b4f2f0.jar" />
-    </item>
-    <item
         jar="C:\Users\seth\Documents\GitHub\led-controller\core\build\libs\core-1.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="85ec4c0a6ff779a1339676ae34255bcf0fcf47ab">
+        sha1="63c09267d7c38a450a23383d712070899c198a64">
         <dex dex="C:\Users\seth\Documents\GitHub\led-controller\android\build\intermediates\pre-dexed\debug\core-1.0-3a264679377ddbb55d671cf067414cb3ebda9e11.jar" />
-    </item>
-    <item
-        jar="C:\Users\seth\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.5.3\3b8f2a7e697b097735ec8fd2b9d576d0959cb7c9\gdx-1.5.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="3b8f2a7e697b097735ec8fd2b9d576d0959cb7c9">
-        <dex dex="C:\android game\led controller\android\build\intermediates\pre-dexed\debug\gdx-1.5.3-995ab92a61a4a3b2b623ca7c0ff0df0f0375c26c.jar" />
     </item>
 
 </items>
